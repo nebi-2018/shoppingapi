@@ -1,0 +1,8 @@
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasProject
+metadata:
+  name: payment-api
+spec:
+  name: "Payment Api"
+  projectIpAccessList:
+    - ipAddress: "0.0.0.0/0"

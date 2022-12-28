@@ -1,0 +1,14 @@
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasDeployment
+metadata:
+  name: auth-api-cluster
+spec:
+  projectRef:
+    name: auth-api
+  deploymentSpec:
+    name: Cluster0
+    providerSettings:
+      instanceSizeName: M0
+      providerName: TENANT
+      regionName: US_EAST_1
+      backingProviderName: AWS

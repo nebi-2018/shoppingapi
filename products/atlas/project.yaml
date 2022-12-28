@@ -1,0 +1,8 @@
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasProject
+metadata:
+  name: product-api
+spec:
+  name: "Product Api"
+  projectIpAccessList:
+    - ipAddress: "0.0.0.0/0"
