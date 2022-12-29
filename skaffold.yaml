@@ -1,10 +1,6 @@
-apiVersion: skaffold/v1
+apiVersion: skaffold/v3
 kind: Config
-deploy:
-  kubectl:
-    manifests:
-      - ./infra/k8s/*
-      - ./infra/k8s-dev/*
+
 build:
   local:
     push: false
@@ -41,3 +37,9 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+    - ./infra/k8s-dev/*
+deploy:
+  kubectl: {}
