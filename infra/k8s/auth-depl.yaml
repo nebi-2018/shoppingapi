@@ -17,7 +17,7 @@ spec:
           image: snoop2021/auth
           env:
             - name: MONGO_URI
-              value: "mongodb+srv://authapi:auth@cluster0.2f6yqbj.mongodb.net"
+              value: "mongodb://auth-mongo-srv:27017/auth"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-depl
+  name: auth-srv
 spec:
   selector:
     app: auth
