@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: auth
-          image: snoop2021/auth
+          image: snoop2021/auth2
           env:
             - name: MONGO_URI
-              value: "mongodb://auth-mongo-srv:27017/auth"
+              value: "mongodb+srv://authapi:auth@cluster0.2f6yqbj.mongodb.net"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: auth-depl
 spec:
   selector:
     app: auth
