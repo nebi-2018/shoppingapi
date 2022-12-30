@@ -40,7 +40,9 @@ const start = async () => {
     new ProductUpdatedListener(natsWrapper.client).listen();
     new PaymentCreatedListener(natsWrapper.client).listen();
 
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(
+      "mongodb+srv://orderapi:order@cluster0.khzn2t3.mongodb.net"
+    );
     console.log("connected to mongodb");
   } catch (err) {
     console.error(err);
