@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: snoop2021/auth2
+          image: snoop2021/auth3
           env:
             - name: MONGO_URI
               value: "mongodb+srv://authapi:auth@cluster0.2f6yqbj.mongodb.net"
