@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: payments
-          image: snoop2021/payments4
+          image: snoop2021/payments23
           env:
             - name: NATS_CLIENT_ID
               valueFrom:

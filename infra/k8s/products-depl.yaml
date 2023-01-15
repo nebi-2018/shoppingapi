@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: products
-          image: snoop2021/products3
+          image: snoop2021/products23
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
