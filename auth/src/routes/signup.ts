@@ -48,7 +48,7 @@ router.post(
     };
 
     //res.status(201).send(user);
-    res.status(201).send({ user, token });
+    res.status(201).send({ user, token, expires });
   }
 );
 
