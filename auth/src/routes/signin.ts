@@ -21,15 +21,12 @@ router.post(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (!existingUser) {
+    const user = await User.findOne({ email });
+    if (!user) {
       throw new BadRequestError("Invalid credentials");
     }
 
-    const passwordsMatch = await Password.compare(
-      existingUser.password,
-      password
-    );
+    const passwordsMatch = await Password.compare(user.password, password);
     if (!passwordsMatch) {
       throw new BadRequestError("Invalid Credentials");
     }
@@ -39,8 +36,8 @@ router.post(
     // Generate JWT
     const token = jwt.sign(
       {
-        id: existingUser.id,
-        email: existingUser.email,
+        id: user.id,
+        email: user.email,
         exp: expires,
       },
       process.env.JWT_KEY!
@@ -51,7 +48,7 @@ router.post(
       jwt: token,
     };
 
-    res.status(200).send({ existingUser, token, expires });
+    res.status(200).send({ user, token, expires });
   }
 );
 

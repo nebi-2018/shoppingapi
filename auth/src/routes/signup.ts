@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
+import moment from "moment";
 import { validateRequest, BadRequestError } from "@washera/common";
 
 import { User } from "../models/user";
@@ -29,11 +30,14 @@ router.post(
     const user = User.build({ email, password });
     await user.save();
 
+    let expires = moment().add(7200, "seconds").valueOf();
+
     // Generate JWT
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
+        exp: expires,
       },
       process.env.JWT_KEY!
     );
