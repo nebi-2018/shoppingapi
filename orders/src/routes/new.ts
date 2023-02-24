@@ -27,8 +27,8 @@ router.post(
   // ],
   //validateRequest,
   async (req: Request, res: Response) => {
-    const { productId } = req.body;
-    console.log("Hello post", productId);
+    // const { productId } = req.body;
+    // console.log("Hello post", productId);
     // const newOrder = new Order(req.body);
     const newOrder = req.body;
     // const savedOrder = await newOrder.save();
