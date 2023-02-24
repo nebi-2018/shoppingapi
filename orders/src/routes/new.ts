@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.post(
   "/api/orders",
-  requireAuth,
+  //requireAuth,
   // [
   //   body("productId")
   //     .not()
@@ -25,7 +25,7 @@ router.post(
   //     .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
   //     .withMessage("Product must be provided"),
   // ],
-  validateRequest,
+  //validateRequest,
   async (req: Request, res: Response) => {
     const { productId } = req.body;
     console.log("Hello post", productId);
