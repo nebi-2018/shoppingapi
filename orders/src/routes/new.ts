@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.post(
   "/api/orders",
-  requireAuth,
+  //requireAuth,
   // [
   //   body("productId")
   //     .not()
