@@ -44,9 +44,9 @@ router.post(
     );
 
     // Store it on session object
-    // req.session = {
-    //   jwt: token,
-    // };
+    req.session = {
+      jwt: token,
+    };
 
     res.status(200).send({ user, token, expires });
   }
