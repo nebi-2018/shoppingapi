@@ -22,6 +22,7 @@ export interface OrderCreatedEvent {
     userId: string;
     product: {
       id: string;
+      price: number;
     }[];
     amount: number;
   };
