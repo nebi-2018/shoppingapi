@@ -6,9 +6,7 @@ export interface OrderCreatedEvent {
         id: string;
         status: OrderStatus;
         userId: string;
-        product: {
-            id: string;
-            price: number;
-        };
+        products: [];
+        amount: number;
     };
 }
