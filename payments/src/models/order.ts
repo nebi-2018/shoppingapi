@@ -5,13 +5,15 @@ import { OrderStatus } from "@washera/common";
 interface OrderAttrs {
   id: string;
   userId: string;
-  price: number;
+  //price: number;
+  amount: number;
   status: OrderStatus;
 }
 
 interface OrderDoc extends mongoose.Document {
   userId: string;
-  price: number;
+  //price: number;
+  amount: number;
   status: OrderStatus;
 }
 
@@ -25,7 +27,11 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    price: {
+    // price: {
+    //   type: Number,
+    //   required: true,
+    // },
+    amount: {
       type: Number,
       required: true,
     },
@@ -44,13 +50,13 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-// orderSchema.set("versionKey", "version");
-// orderSchema.plugin(updateIfCurrentPlugin);
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order({
     _id: attrs.id,
-    price: attrs.price,
+    amount: attrs.amount,
     userId: attrs.userId,
     status: attrs.status,
   });

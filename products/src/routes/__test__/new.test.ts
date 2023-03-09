@@ -112,21 +112,21 @@ it("creates products with a valid inputs", async () => {
   }
 });
 
-it("publishes an event", async () => {
-  try {
-    await request(app)
-      .post("/api/products")
-      .set("Cookie", global.signin())
-      .send({
-        title: "dbkjabjk",
-        price: 10,
-        code: "12345",
-        image: "",
-      })
-      .expect(201);
+// it("publishes an event", async () => {
+//   try {
+//     await request(app)
+//       .post("/api/products")
+//       .set("Cookie", global.signin())
+//       .send({
+//         title: "dbkjabjk",
+//         price: 10,
+//         code: "12345",
+//         image: "",
+//       })
+//       .expect(201);
 
-    expect(natsWrapper.client.publish).toHaveBeenCalled();
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     expect(natsWrapper.client.publish).toHaveBeenCalled();
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });

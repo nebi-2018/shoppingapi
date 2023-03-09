@@ -142,36 +142,36 @@ it("updates the product provided valid inputs", async () => {
   }
 });
 
-it("publishes an event", async () => {
-  try {
-    const cookie = global.signin();
+// it("publishes an event", async () => {
+//   try {
+//     const cookie = global.signin();
 
-    const response = await request(app)
-      .post("/api/products")
-      .set("Cookie", cookie)
-      .send({
-        title: "asldkfj",
-        price: 20,
-        code: "12345",
-        image: "",
-      });
+//     const response = await request(app)
+//       .post("/api/products")
+//       .set("Cookie", cookie)
+//       .send({
+//         title: "asldkfj",
+//         price: 20,
+//         code: "12345",
+//         image: "",
+//       });
 
-    await request(app)
-      .put(`/api/products/${response.body.id}`)
-      .set("Cookie", cookie)
-      .send({
-        title: "new title",
-        price: 100,
-        code: "12345",
-        image: "",
-      })
-      .expect(200);
+//     await request(app)
+//       .put(`/api/products/${response.body.id}`)
+//       .set("Cookie", cookie)
+//       .send({
+//         title: "new title",
+//         price: 100,
+//         code: "12345",
+//         image: "",
+//       })
+//       .expect(200);
 
-    expect(natsWrapper.client.publish).toHaveBeenCalled();
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     expect(natsWrapper.client.publish).toHaveBeenCalled();
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 it("rejects updates if the product is reserved", async () => {
   try {

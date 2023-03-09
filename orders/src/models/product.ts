@@ -1,4 +1,5 @@
 import { OrderStatus } from "@washera/common";
+import { Types } from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import mongoose from "mongoose";
 import { Order } from "./order";
@@ -7,15 +8,31 @@ interface ProductAttrs {
   id: string;
   title: string;
   price: number;
-  code: string;
-  image: string;
 }
+
+// interface Products {
+//   title: string;
+//   price: number;
+//   quantity: number;
+// }
+
+// interface Itemss {
+//   id: Types.ObjectId;
+//   title: string;
+//   price: number;
+//   quantity: number;
+// }
+
+// export interface ProductDoc extends mongoose.Document {
+//   title: string;
+//   price: number;
+//   isReserved(): Promise<boolean>;
+// }
 
 export interface ProductDoc extends mongoose.Document {
   title: string;
   price: number;
-  code: string;
-  image: string;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -35,13 +52,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    code: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-    },
   },
   {
     toJSON: {
@@ -53,8 +63,8 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-// productSchema.set("versionKey", "version");
-// productSchema.plugin(updateIfCurrentPlugin);
+productSchema.set("versionKey", "version");
+productSchema.plugin(updateIfCurrentPlugin);
 
 productSchema.statics.findByEvent = (event: { id: string }) => {
   return Product.findOne({
@@ -66,8 +76,21 @@ productSchema.statics.build = (attrs: ProductAttrs) => {
     _id: attrs.id,
     title: attrs.title,
     price: attrs.price,
-    code: attrs.code,
-    image: attrs.image,
+  });
+};
+
+// productSchema.statics.build = (attrs: ProductAttrs) => {
+//   return new Product({
+//     _id: attrs.id,
+//     products: attrs.products,
+//   });
+// };
+
+productSchema.statics.build = (attrs: ProductAttrs) => {
+  return new Product({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
   });
 };
 

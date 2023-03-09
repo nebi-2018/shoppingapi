@@ -1,4 +1,5 @@
 import { natsWrapper } from "../nats-wrapper";
+import { ObjectId } from "mongodb";
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import {
@@ -24,7 +25,9 @@ router.post(
   async (req: Request, res: Response) => {
     const { token, orderId } = req.body;
 
+    console.log(req.body);
     const order = await Order.findById(orderId);
+    console.log(order);
 
     if (!order) {
       throw new NotFoundError();
@@ -40,7 +43,7 @@ router.post(
 
     const charge = await stripe.charges.create({
       currency: "eur",
-      amount: order.price * 100,
+      amount: order.amount * 100,
       source: token,
     });
 

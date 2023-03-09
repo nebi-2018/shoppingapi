@@ -5,13 +5,11 @@ import { Order } from "../../models/order";
 import { Product } from "../../models/product";
 
 it("fetches the order", async () => {
-  // Create a ticket
+  // Create a product
   const product = Product.build({
     id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 40,
-    code: "12345",
-    image: "",
   });
   await product.save();
   const user = global.signin();

@@ -27,9 +27,9 @@ router.post(
   // ],
   validateRequest,
   async (req: Request, res: Response) => {
-    // const { productId } = req.body;
+    const { productId } = req.body;
     // console.log("Hello post", productId);
-    // const newOrder = new Order(req.body);
+
     const newOrder = req.body;
     // const savedOrder = await newOrder.save();
     // const orderr = {
@@ -42,7 +42,7 @@ router.post(
     //   ],
     // };
     // // Find the product the user is trying to order in the database
-    // const product = await Product.findById(productId);
+    const product = await Product.findById(productId);
 
     // if (!product) {
     //   throw new NotFoundError();
@@ -69,6 +69,19 @@ router.post(
     //     price: product.price,
     //   },
     // });
+
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      product: [
+        {
+          id: product?.id!,
+          price: product?.price!,
+        },
+      ],
+      amount: order.amount,
+    });
     res.status(201).send(order);
   }
 );

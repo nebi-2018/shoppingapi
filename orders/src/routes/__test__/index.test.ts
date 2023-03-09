@@ -9,8 +9,6 @@ const buildProduct = async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 30,
-    code: "12345",
-    image: "",
   });
 
   await product.save();

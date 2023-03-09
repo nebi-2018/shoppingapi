@@ -44,14 +44,14 @@ router.put(
     });
 
     await product.save();
-    new ProductUpdatedPublisher(natsWrapper.client).publish({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      code: product.code,
-      image: product.image,
-      userId: product.userId,
-    });
+    // new ProductUpdatedPublisher(natsWrapper.client).publish({
+    //   id: product.id,
+    //   title: product.title,
+    //   price: product.price,
+    //   code: product.code,
+    //   image: product.image,
+    //   userId: product.userId,
+    // });
 
     res.send(product);
   }
