@@ -23,8 +23,6 @@ it("reserves a product", async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
-    code: "12345",
-    image: "",
   });
 
   await product.save();

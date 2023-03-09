@@ -8,14 +8,12 @@ export class ProductCreatedListener extends Listener<ProductCreatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: ProductCreatedEvent["data"], msg: Message) {
-    const { id, title, price, code, image } = data;
+    const { id, title, price } = data;
 
     const product = Product.build({
       id,
       title,
       price,
-      code,
-      image,
     });
 
     await product.save();

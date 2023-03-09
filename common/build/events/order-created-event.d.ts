@@ -9,6 +9,7 @@ export interface OrderCreatedEvent {
         product: {
             id: string;
             price: number;
-        };
+        }[];
+        amount: number;
     };
 }

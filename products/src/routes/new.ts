@@ -30,14 +30,14 @@ router.post(
 
     await product.save();
 
-    new ProductCreatedPublisher(natsWrapper.client).publish({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      code: product.code,
-      image: product.image,
-      userId: product.userId,
-    });
+    // new ProductCreatedPublisher(natsWrapper.client).publish({
+    //   id: product.id,
+    //   title: product.title,
+    //   price: product.price,
+    //   code: product.code,
+    //   image: product.image,
+    //   userId: product.userId,
+    // });
     res.status(201).send(product);
   }
 );

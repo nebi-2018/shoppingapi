@@ -1,6 +1,6 @@
 {
   "name": "@washera/common",
-  "version": "1.0.33",
+  "version": "1.0.45",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
