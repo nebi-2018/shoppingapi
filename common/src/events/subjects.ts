@@ -1,4 +1,5 @@
 export enum Subjects {
+  UserCreated = "user:created",
   ProductCreated = "product:created",
   ProductUpdated = "product:updated",
 
