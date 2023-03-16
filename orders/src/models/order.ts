@@ -10,6 +10,7 @@ interface OrderAttrs {
   products: Items[];
   amount: number;
   dateTime: string;
+  // transactionId: string;
 }
 
 interface Items {
@@ -25,6 +26,7 @@ interface OrderDoc extends mongoose.Document {
   products: Types.DocumentArray<Items>;
   amount: number;
   dateTime: string;
+  // transactionId: string;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -67,6 +69,7 @@ const orderSchema = new mongoose.Schema(
       },
     ],
     amount: { type: Number },
+    //transactionId: { type: String },
     dateTime: { type: String },
   },
   {

@@ -1,4 +1,5 @@
 export declare enum Subjects {
+    UserCreated = "user:created",
     ProductCreated = "product:created",
     ProductUpdated = "product:updated",
     OrderCreated = "order:created",

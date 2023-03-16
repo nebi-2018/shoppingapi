@@ -34,3 +34,4 @@ __exportStar(require("./events/types/order-status"), exports);
 __exportStar(require("./events/order-cancelled-event"), exports);
 __exportStar(require("./events/order-created-event"), exports);
 __exportStar(require("./events/payment-creted-event"), exports);
+__exportStar(require("./events/user-created-event"), exports);
