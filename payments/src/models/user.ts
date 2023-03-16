@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
-import { Password } from "../services/password";
 
 // An interface that describes the properties
 // that are requried to create a new User
 interface UserAttrs {
-  //fullName: string;
+  id: string;
+  fullName: string;
   email: string;
-  password: string;
-  //stripeCustomerId: string;
+  stripeCustomerId: string;
 }
 
 // An interface that describes the properties
@@ -19,28 +18,22 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // An interface that describes the properties
 // that a User Document has
 interface UserDoc extends mongoose.Document {
-  //fullName: string;
+  fullName: string;
   email: string;
-  password: string;
-  //stripeCustomerId: string;
+  stripeCustomerId: string;
 }
 
 const userSchema = new mongoose.Schema(
   {
-    // fullName: {
-    //   type: String,
-    // },
+    fullName: {
+      type: String,
+    },
     email: {
       type: String,
-      required: true,
     },
-    password: {
+    stripeCustomerId: {
       type: String,
-      required: true,
     },
-    // stripeCustomerId: {
-    //   type: String,
-    // },
   },
   {
     toJSON: {
@@ -53,14 +46,6 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
-
-userSchema.pre("save", async function (done) {
-  if (this.isModified("password")) {
-    const hashed = await Password.toHash(this.get("password"));
-    this.set("password", hashed);
-  }
-  done();
-});
 
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);

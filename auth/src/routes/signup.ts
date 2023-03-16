@@ -5,6 +5,8 @@ import moment from "moment";
 import { validateRequest, BadRequestError } from "@washera/common";
 
 import { User } from "../models/user";
+import { UserCreatedPublisher } from "../events/publishers/user-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -47,6 +49,13 @@ router.post(
       jwt: token,
       //token,
     };
+
+    // new UserCreatedPublisher(natsWrapper.client).publish({
+    //   id: user.id,
+    //   fullName: user.fullName,
+    //   email: user.email,
+    //   stripeCustomerId: user.stripeCustomerId,
+    // });
 
     //res.status(201).send(user);
     res.status(201).send({ user, token, expires });

@@ -3,6 +3,7 @@ import { app } from "./app";
 import { natsWrapper } from "./nats-wrapper";
 import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
 import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+import { UserCreatedListener } from "./events/listeners/user-created-listener";
 
 const start = async () => {
   console.log("Starting up payments3...");
@@ -38,6 +39,7 @@ const start = async () => {
 
     new OrderCancelledListener(natsWrapper.client).listen();
     new OrderCreatedListener(natsWrapper.client).listen();
+    //new UserCreatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(
       "mongodb+srv://paymentapi:payment@cluster0.txe4zfx.mongodb.net"

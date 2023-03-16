@@ -16,6 +16,14 @@ spec:
         - name: auth
           image: snoop2021/auth
           env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: shopping
             - name: MONGO_URI
               value: "mongodb+srv://authapi:auth@cluster0.2f6yqbj.mongodb.net"
             - name: JWT_KEY
