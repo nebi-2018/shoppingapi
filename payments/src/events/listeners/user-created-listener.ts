@@ -9,11 +9,13 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
 
   async onMessage(data: UserCreatedEvent["data"], msg: Message) {
     const user = User.build({
-      id: data.id,
+      userId: data.userId,
       fullName: data.fullName,
       email: data.email,
       stripeCustomerId: data.stripeCustomerId,
     });
+
+    console.log(`this is from user-created-listener ${user.id}`);
 
     await user.save();
 

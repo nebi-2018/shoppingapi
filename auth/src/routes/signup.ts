@@ -3,7 +3,6 @@ import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import moment from "moment";
 import { validateRequest, BadRequestError } from "@washera/common";
-
 import { User } from "../models/user";
 import { UserCreatedPublisher } from "../events/publishers/user-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
@@ -21,7 +20,7 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+    const { email, password, fullName, stripeCustomerId } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -29,7 +28,7 @@ router.post(
       throw new BadRequestError("Email in use");
     }
 
-    const user = User.build({ email, password });
+    const user = User.build({ email, password, fullName, stripeCustomerId });
     await user.save();
 
     let expires = moment().add(7200, "seconds").valueOf();
@@ -50,12 +49,12 @@ router.post(
       //token,
     };
 
-    // new UserCreatedPublisher(natsWrapper.client).publish({
-    //   id: user.id,
-    //   fullName: user.fullName,
-    //   email: user.email,
-    //   stripeCustomerId: user.stripeCustomerId,
-    // });
+    new UserCreatedPublisher(natsWrapper.client).publish({
+      userId: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      stripeCustomerId: user.stripeCustomerId,
+    });
 
     //res.status(201).send(user);
     res.status(201).send({ user, token, expires });

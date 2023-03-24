@@ -39,7 +39,7 @@ const start = async () => {
 
     new OrderCancelledListener(natsWrapper.client).listen();
     new OrderCreatedListener(natsWrapper.client).listen();
-    //new UserCreatedListener(natsWrapper.client).listen();
+    new UserCreatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(
       "mongodb+srv://paymentapi:payment@cluster0.txe4zfx.mongodb.net"

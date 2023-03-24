@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 interface PaymentAttrs {
   orderId: string;
   stripeId: string;
+  paymentIntentId: string;
+  clientsecret: string | null;
 }
 
 interface PaymentDoc extends mongoose.Document {
   orderId: string;
   stripeId: string;
+  paymentIntentId: string;
+  clientsecret: string;
 }
 
 interface PaymentModel extends mongoose.Model<PaymentDoc> {
@@ -21,6 +25,14 @@ const paymentSchema = new mongoose.Schema(
       required: true,
     },
     stripeId: {
+      type: String,
+      required: true,
+    },
+    paymentIntentId: {
+      type: String,
+      required: true,
+    },
+    clientsecret: {
       type: String,
       required: true,
     },
