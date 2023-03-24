@@ -2,69 +2,54 @@ import Stripe from "stripe";
 import { stripe } from "./stripe";
 import { Request, Response, NextFunction } from "express";
 
-const createCustomer = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export async function createCustomer(params: any, callback: any) {
   try {
     const customer = await stripe.customers.create({
-      name: req.body.name,
-      email: req.body.email,
+      name: params.name,
+      email: params.email,
     });
-    res.status(200).send(customer);
+    callback(null, customer);
   } catch (error) {
-    throw error;
+    return callback(error);
   }
-};
+}
 
-const addCard = async (req: Request, res: Response, next: NextFunction) => {
-  const {
-    customer_Id,
-    card_Name,
-    card_ExpYear,
-    card_ExpMonth,
-    card_Number,
-    card_CVC,
-  } = req.body;
+export async function addCard(params: any, callback: any) {
   try {
     const card_token = await stripe.tokens.create({
       card: {
-        name: card_Name,
-        number: card_Number,
-        exp_month: card_ExpMonth,
-        exp_year: card_ExpYear,
-        cvc: card_CVC,
+        name: params.card_Name,
+        number: params.card_Number,
+        exp_month: params.card_ExpMonth,
+        exp_year: params.card_ExpYear,
+        cvc: params.card_CVC,
       },
     });
-    const card = await stripe.customers.createSource(customer_Id, {
+    const card = await stripe.customers.createSource(params.customer_Id, {
       source: `${card_token.id}`,
     });
-    return res.status(200).send({ card: card.id });
+
+    callback(null, { card: card.id });
   } catch (error) {
     throw error;
   }
-};
+}
 
-const createCharges = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export async function createCharges(params: any, callback: any) {
   try {
     const createCharge = await stripe.paymentIntents.create({
-      receipt_email: req.body.receipt_email,
-      amount: req.body.amount,
+      receipt_email: params.receipt_email,
+      amount: params.amount,
       currency: "eur",
-      payment_method: req.body.card_id,
-      customer: req.body.customer_Id,
+      payment_method: params.card_id,
+      customer: params.customer_Id,
       payment_method_types: ["card"],
     });
-    res.send(createCharge);
+    callback(null, createCharge);
   } catch (err) {
     throw err;
   }
-};
+}
 
 module.exports = {
   createCharges,

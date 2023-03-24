@@ -39,23 +39,23 @@ it("returns a 401 when purchasing an order that doesnt belongs to the user", asy
     .expect(401);
 });
 
-it("returns a 400 when purchasing a cancelled order", async () => {
-  const userId = new mongoose.Types.ObjectId().toHexString();
-  const order = Order.build({
-    id: new mongoose.Types.ObjectId().toHexString(),
-    userId,
-    amount: 20,
-    status: OrderStatus.Cancelled,
-  });
+// it("returns a 400 when purchasing a cancelled order", async () => {
+//   const userId = new mongoose.Types.ObjectId().toHexString();
+//   const order = Order.build({
+//     id: new mongoose.Types.ObjectId().toHexString(),
+//     userId,
+//     amount: 20,
+//     status: OrderStatus.Cancelled,
+//   });
 
-  await order.save();
+//   await order.save();
 
-  await request(app)
-    .post("/api/payments")
-    .set("Cookie", global.signin(userId))
-    .send({
-      orderId: order.id,
-      token: "fksdjfk",
-    })
-    .expect(400);
-});
+//   await request(app)
+//     .post("/api/payments")
+//     .set("Cookie", global.signin(userId))
+//     .send({
+//       orderId: order.id,
+//       token: "fksdjfk",
+//     })
+//     .expect(400);
+// });

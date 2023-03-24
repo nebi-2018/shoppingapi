@@ -4,10 +4,10 @@ import { Password } from "../services/password";
 // An interface that describes the properties
 // that are requried to create a new User
 interface UserAttrs {
-  //fullName: string;
+  fullName: string;
   email: string;
   password: string;
-  //stripeCustomerId: string;
+  stripeCustomerId: string;
 }
 
 // An interface that describes the properties
@@ -19,17 +19,17 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // An interface that describes the properties
 // that a User Document has
 interface UserDoc extends mongoose.Document {
-  //fullName: string;
+  fullName: string;
   email: string;
   password: string;
-  //stripeCustomerId: string;
+  stripeCustomerId: string;
 }
 
 const userSchema = new mongoose.Schema(
   {
-    // fullName: {
-    //   type: String,
-    // },
+    fullName: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
@@ -38,9 +38,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // stripeCustomerId: {
-    //   type: String,
-    // },
+    stripeCustomerId: {
+      type: String,
+    },
   },
   {
     toJSON: {

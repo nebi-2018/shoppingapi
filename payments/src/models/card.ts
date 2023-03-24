@@ -6,7 +6,7 @@ interface CardsAttrs {
   cardName: string;
   cardNumber: string;
   cardEXPMonth: string;
-  cardExpYear: string;
+  cardEXPYear: string;
   cardCVC: string;
   cardId: string;
   customerId: string;
@@ -35,7 +35,6 @@ const cardSchema = new mongoose.Schema(
     cardNumber: {
       type: String,
       required: true,
-      unique: true,
     },
     cardEXPMonth: {
       type: String,
@@ -69,12 +68,12 @@ const cardSchema = new mongoose.Schema(
 );
 
 cardSchema.set("versionKey", "version");
-cardSchema.plugin(updateIfCurrentPlugin);
+//cardSchema.plugin(updateIfCurrentPlugin);
 
 cardSchema.statics.build = (attrs: CardsAttrs) => {
   return new Card(attrs);
 };
 
-const Card = mongoose.model<CardsDoc, CardModel>("Order", cardSchema);
+const Card = mongoose.model<CardsDoc, CardModel>("Card", cardSchema);
 
 export { Card };

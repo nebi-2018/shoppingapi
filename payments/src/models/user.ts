@@ -3,7 +3,16 @@ import mongoose from "mongoose";
 // An interface that describes the properties
 // that are requried to create a new User
 interface UserAttrs {
-  id: string;
+  userId: string;
+  fullName: string;
+  email: string;
+  stripeCustomerId: string;
+}
+
+// An interface that describes the properties
+// that a User Document has
+interface UserDoc extends mongoose.Document {
+  userId: string;
   fullName: string;
   email: string;
   stripeCustomerId: string;
@@ -15,16 +24,12 @@ interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
-// An interface that describes the properties
-// that a User Document has
-interface UserDoc extends mongoose.Document {
-  fullName: string;
-  email: string;
-  stripeCustomerId: string;
-}
-
 const userSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+    },
+
     fullName: {
       type: String,
     },
