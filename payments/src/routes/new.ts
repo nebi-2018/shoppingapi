@@ -151,6 +151,29 @@ router.post(
     model.paymentIntentId = charge.id;
     model.client_secret = charge.client_secret;
 
+    // async function updateOrder(params: any, callBack: any) {
+    //   var model = {
+    //     orderStaus: params.status,
+    //     transactionId: params.transactionId,
+    //   };
+
+    //   Order.findByIdAndUpdate(params.orderId, model, {
+    //     useFindAndModify: false,
+    //   })
+    //     .then((response) => {
+    //       if (!response) {
+    //         callBack("Order Update failed");
+    //       } else {
+    //         if (params.status === "success") {
+    //         }
+    //         return callBack(null, response);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       return callBack(error);
+    //     });
+    // }
+
     // var model = {
     //   userId: req.currentUser?.id,
     //   card_Number: req.body.card_Number,
