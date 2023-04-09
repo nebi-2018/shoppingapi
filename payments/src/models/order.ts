@@ -8,6 +8,7 @@ interface OrderAttrs {
   //price: number;
   amount: number;
   status: OrderStatus;
+  //transactionId: string;
 }
 
 interface OrderDoc extends mongoose.Document {
@@ -15,6 +16,7 @@ interface OrderDoc extends mongoose.Document {
   //price: number;
   amount: number;
   status: OrderStatus;
+  //transactionId: string;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -39,6 +41,9 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // transactionId: {
+    //   type: String,
+    // },
   },
   {
     toJSON: {
