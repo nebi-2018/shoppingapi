@@ -84,6 +84,7 @@ router.post(
         }
 
         if (result.success) {
+          console.log(res.json);
           console.log("the result is: " + result);
           console.log("Transaction ID: " + result.transaction.id);
         } else {
