@@ -63,10 +63,11 @@ router.post(
       privateKey: bmi,
     });
 
-    const chala = gateway.transaction.sale(
+    const chala = await gateway.transaction.sale(
       {
         amount: order.amount,
-        paymentMethodNonce: "fake-paypal-one-time-nounce",
+        //paymentMethodNonce: "fake-paypal-one-time-nounce",
+        paymentMethodNonce: nonceFromTheClient,
         deviceData: deviceData,
         options: {
           submitForSettlement: true,
@@ -86,6 +87,8 @@ router.post(
         return result.transaction.id;
       }
     );
+
+    console.log(chala);
 
     //for test
     // const user = await User.findOne({ userId: order.userId });
