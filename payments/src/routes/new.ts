@@ -66,7 +66,7 @@ router.post(
     const chala = gateway.transaction.sale(
       {
         amount: order.amount,
-        paymentMethodNonce: nonceFromTheClient,
+        paymentMethodNonce: "fake-paypal-one-time-nounce",
         deviceData: deviceData,
         options: {
           submitForSettlement: true,
