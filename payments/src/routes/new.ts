@@ -49,9 +49,9 @@ router.post(
       throw new NotAuthorizedError();
     }
 
-    const bpk = new braintree(process.env.PUBLIC_KEY);
-    const bpv = new braintree(process.env.PRIVATE_KEY);
-    const bmi = new braintree(process.env.MERCHANT_ID);
+    const bpk = process.env.PUBLIC_KEY;
+    const bpv = process.env.PRIVATE_KEY;
+    const bmi = process.env.MERCHANT_ID;
 
     const nonceFromTheClient = req.body.payment_method_nonce;
     const deviceData = req.body.device_Data;
