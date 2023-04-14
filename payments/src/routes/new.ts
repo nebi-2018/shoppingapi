@@ -16,6 +16,8 @@ import { Payment } from "../models/payment";
 import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
 import { Card } from "../models/card";
 
+const braintree = require("braintree");
+
 const router = express.Router();
 
 router.post(
@@ -47,76 +49,114 @@ router.post(
       throw new NotAuthorizedError();
     }
 
-    //for test
-    const user = await User.findOne({ userId: order.userId });
-    console.log(`I found the user ${user}`);
+    const bpk = new braintree(process.env.PUBLIC_KEY);
+    const bpv = new braintree(process.env.PRIVATE_KEY);
+    const bmi = new braintree(process.env.MERCHANT_ID);
 
-    if (!user) {
-      throw new NotFoundError();
-    }
+    const nonceFromTheClient = req.body.payment_method_nonce;
+    const deviceData = req.body.device_Data;
 
-    var model: any = {};
+    var gateway = new braintree.BraintreeGateway({
+      environment: braintree.Environment.Sandbox,
+      merchantId: bpk,
+      publicKey: bpv,
+      privateKey: bmi,
+    });
 
-    if (!user.stripeCustomerId) {
-      const customer = await stripe.customers.create({
-        name: user.fullName,
-        email: user.email,
-      });
-
-      user.stripeCustomerId = customer.id;
-      user.save();
-
-      model.stripeCustomerId = customer.id;
-    } else {
-      model.stripeCustomerId = user.stripeCustomerId;
-    }
-
-    Card.findOne(
+    const chala = gateway.transaction.sale(
       {
-        customerId: model.stripeCustomerId,
-        cardNumber: card_Number,
-        cardEXPMonth: card_ExpMonth,
-        cardExpYear: card_ExpYear,
+        amount: order.amount,
+        paymentMethodNonce: nonceFromTheClient,
+        deviceData: deviceData,
+        options: {
+          submitForSettlement: true,
+        },
       },
-      async function (err: any, cardDB: any) {
+      (err: any, result: any) => {
         if (err) {
-          return console.log(err);
-        } else {
-          if (!cardDB) {
-            const card_token = await stripe.tokens.create({
-              card: {
-                name: card_Name,
-                number: card_Number,
-                exp_month: card_ExpMonth,
-                exp_year: card_ExpYear,
-                cvc: card_CVC,
-              },
-            });
-            const card = await stripe.customers.createSource(
-              model.stripeCustomerId,
-              {
-                source: `${card_token.id}`,
-              }
-            );
-
-            const cardD = Card.build({
-              cardId: card.id,
-              cardName: card_Name,
-              cardNumber: card_Number,
-              cardEXPMonth: card_ExpMonth,
-              cardEXPYear: card_ExpYear,
-              cardCVC: card_CVC,
-              customerId: model.stripeCustomerId,
-            });
-
-            cardD.save();
-            model.cardId = card.id;
-          } else {
-            model.cardId = cardDB.cardId;
-          }
+          console.error(err);
+          return;
         }
+
+        if (result.success) {
+          console.log("Transaction ID: " + result.transaction.id);
+        } else {
+          console.error(result.message);
+        }
+        return result.transaction.id;
       }
     );
+
+    //for test
+    // const user = await User.findOne({ userId: order.userId });
+    // console.log(`I found the user ${user}`);
+
+    // if (!user) {
+    //   throw new NotFoundError();
+    // }
+
+    // var model: any = {};
+
+    // if (!user.stripeCustomerId) {
+    //   const customer = await stripe.customers.create({
+    //     name: user.fullName,
+    //     email: user.email,
+    //   });
+
+    //   user.stripeCustomerId = customer.id;
+    //   user.save();
+
+    //   model.stripeCustomerId = customer.id;
+    // } else {
+    //   model.stripeCustomerId = user.stripeCustomerId;
+    // }
+
+    // Card.findOne(
+    //   {
+    //     customerId: model.stripeCustomerId,
+    //     cardNumber: card_Number,
+    //     cardEXPMonth: card_ExpMonth,
+    //     cardExpYear: card_ExpYear,
+    //   },
+    //   async function (err: any, cardDB: any) {
+    //     if (err) {
+    //       return console.log(err);
+    //     } else {
+    //       if (!cardDB) {
+    //         const card_token = await stripe.tokens.create({
+    //           card: {
+    //             name: card_Name,
+    //             number: card_Number,
+    //             exp_month: card_ExpMonth,
+    //             exp_year: card_ExpYear,
+    //             cvc: card_CVC,
+    //           },
+    //         });
+    //         const card = await stripe.customers.createSource(
+    //           model.stripeCustomerId,
+    //           {
+    //             source: `${card_token.id}`,
+    //           }
+    //         );
+
+    //         const cardD = Card.build({
+    //           cardId: card.id,
+    //           cardName: card_Name,
+    //           cardNumber: card_Number,
+    //           cardEXPMonth: card_ExpMonth,
+    //           cardEXPYear: card_ExpYear,
+    //           cardCVC: card_CVC,
+    //           customerId: model.stripeCustomerId,
+    //         });
+
+    //         cardD.save();
+    //         model.cardId = card.id;
+    //       } else {
+    //         model.cardId = cardDB.cardId;
+    //       }
+    //     }
+    //   }
+    // );
 
     if (!order) {
       throw new NotFoundError();
@@ -138,18 +178,18 @@ router.post(
     //   customer: customer.id,
     // });
 
-    const charge = await stripe.paymentIntents.create({
-      receipt_email: "nebiw@metropolia.fi",
-      amount: order.amount * 100,
-      currency: "eur",
-      payment_method: model.cardId,
-      //customer: user.stripeCustomerId,
-      customer: model.stripeCustomerId,
-      payment_method_types: ["card"],
-    });
+    // const charge = await stripe.paymentIntents.create({
+    //   receipt_email: "nebiw@metropolia.fi",
+    //   amount: order.amount * 100,
+    //   currency: "eur",
+    //   payment_method: model.cardId,
+    //   //customer: user.stripeCustomerId,
+    //   customer: model.stripeCustomerId,
+    //   payment_method_types: ["card"],
+    // });
 
-    model.paymentIntentId = charge.id;
-    model.client_secret = charge.client_secret;
+    // model.paymentIntentId = charge.id;
+    // model.client_secret = charge.client_secret;
 
     // async function updateOrder(params: any, callBack: any) {
     //   var model = {
@@ -206,9 +246,10 @@ router.post(
 
     const payment = Payment.build({
       orderId,
-      stripeId: charge.id,
-      paymentIntentId: charge.id,
-      clientsecret: charge.client_secret,
+      transactionId: chala,
+      // stripeId: charge.id,
+      // paymentIntentId: charge.id,
+      // clientsecret: charge.client_secret,
     });
 
     await payment.save();
@@ -216,8 +257,9 @@ router.post(
     new PaymentCreatedPublisher(natsWrapper.client).publish({
       id: payment.id,
       orderId: payment.orderId,
-      stripeId: payment.stripeId,
+      transactionId: payment.transactionId,
     });
+
     res.status(201).send(payment);
   }
 );
