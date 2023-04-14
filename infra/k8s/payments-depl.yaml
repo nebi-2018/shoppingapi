@@ -36,6 +36,21 @@ spec:
                 secretKeyRef:
                   name: stripe-secret
                   key: STRIP_KEY
+            - name: PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: braintree-public-secret
+                  key: PUBLIC_KEY
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: braintree-private-secret
+                  key: PRIVATE_KEY
+            - name: MERCHANT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: braintree-merchant-id
+                  key: MERCHANT_ID
 
 ---
 apiVersion: v1
