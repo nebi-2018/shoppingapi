@@ -53,20 +53,25 @@ router.post(
     const bpv = process.env.PRIVATE_KEY;
     const bmi = process.env.MERCHANT_ID;
 
+    console.log(`the public key is ${bpk} `);
+    console.log(`the private key is ${bpk} `);
+    console.log(`the merchant key is ${bpk} `);
+
     const nonceFromTheClient = req.body.payment_method_nonce;
     const deviceData = req.body.device_Data;
 
     var gateway = new braintree.BraintreeGateway({
       environment: braintree.Environment.Sandbox,
-      merchantId: bpk,
-      publicKey: bpv,
-      privateKey: bmi,
+      merchantId: "tf4v95ds3jswb8f9",
+      publicKey: "t2m4mcpwh66pmq3d",
+      privateKey: "4751d980e7dcf15901ba78d598b7d5c1",
     });
 
-    const chala = gateway.transaction.sale(
+    const chala = await gateway.transaction.sale(
       {
         amount: order.amount,
-        paymentMethodNonce: "fake-paypal-one-time-nounce",
+        //paymentMethodNonce: "fake-paypal-one-time-nounce",
+        paymentMethodNonce: nonceFromTheClient,
         deviceData: deviceData,
         options: {
           submitForSettlement: true,
@@ -87,6 +92,7 @@ router.post(
       }
     );
 
+    console.log(`this is chala ${chala}`);
     //for test
     // const user = await User.findOne({ userId: order.userId });
     // console.log(`I found the user ${user}`);
