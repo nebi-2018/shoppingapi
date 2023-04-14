@@ -53,6 +53,10 @@ router.post(
     const bpv = process.env.PRIVATE_KEY;
     const bmi = process.env.MERCHANT_ID;
 
+    console.log(`the public key is ${bpk} `);
+    console.log(`the private key is ${bpk} `);
+    console.log(`the merchant key is ${bpk} `);
+
     const nonceFromTheClient = req.body.payment_method_nonce;
     const deviceData = req.body.device_Data;
 
@@ -88,8 +92,7 @@ router.post(
       }
     );
 
-    console.log(chala);
-
+    console.log(`this is chala ${chala}`);
     //for test
     // const user = await User.findOne({ userId: order.userId });
     // console.log(`I found the user ${user}`);
