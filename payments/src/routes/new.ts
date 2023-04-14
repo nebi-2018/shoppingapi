@@ -62,9 +62,9 @@ router.post(
 
     var gateway = new braintree.BraintreeGateway({
       environment: braintree.Environment.Sandbox,
-      merchantId: bpk,
-      publicKey: bpv,
-      privateKey: bmi,
+      merchantId: "tf4v95ds3jswb8f9",
+      publicKey: "t2m4mcpwh66pmq3d",
+      privateKey: "4751d980e7dcf15901ba78d598b7d5c1",
     });
 
     const chala = await gateway.transaction.sale(
