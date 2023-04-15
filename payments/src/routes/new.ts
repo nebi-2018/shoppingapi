@@ -67,7 +67,7 @@ router.post(
       privateKey: "4751d980e7dcf15901ba78d598b7d5c1",
     });
 
-    const chala = await gateway.transaction.sale({
+    var chala = gateway.transaction.sale({
       amount: order.amount,
       paymentMethodNonce: nonceFromTheClient,
       deviceData: deviceData,
@@ -76,20 +76,19 @@ router.post(
       },
     });
 
-    if (chala.error) {
-      console.log("hello from error");
-      console.log(chala.error);
-    }
+    // if (chala.error) {
+    //   console.log("hello from error");
+    //   console.log(chala.error);
+    // }
 
-    if (chala.success) {
+    if (chala.success !== null) {
       console.log("hello from success");
       var deme = chala.transaction.id;
       return deme;
-    } else {
-      console.log(chala.message);
     }
 
     console.log("Transaction ID: " + deme);
+
     // await gateway.transaction.sale(
     //   {
     //     amount: order.amount,
@@ -115,6 +114,22 @@ router.post(
     //       console.error(result.message);
     //     }
     //     return result.transaction.id;
+    //   }
+    // );
+
+    // await gateway.transaction.sale(
+    //   {
+    //     amount: order.amount,
+    //     paymentMethodNonce: nonceFromTheClient,
+    //     deviceData: deviceData,
+    //     options: {
+    //       submitForSettlement: true,
+    //     },
+    //   },
+    //   (err: any, result: any) => {
+    //     var kkk = result.transaction.id;
+    //     console.log("Transaction ID: " + result.transaction.id);
+    //     return kkk;
     //   }
     // );
 
