@@ -79,7 +79,6 @@ router.post(
     if (chala.error) {
       console.log("hello from error");
       console.log(chala.error);
-      return;
     }
 
     if (chala.success) {
@@ -109,7 +108,9 @@ router.post(
     //     if (result.success) {
     //       console.log(res.json);
     //       console.log("the result is: " + result);
+    //       var kkk = result.transaction.id;
     //       console.log("Transaction ID: " + result.transaction.id);
+    //       return kkk;
     //     } else {
     //       console.error(result.message);
     //     }
