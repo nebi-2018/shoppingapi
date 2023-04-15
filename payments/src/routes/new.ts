@@ -77,11 +77,13 @@ router.post(
     });
 
     if (chala.error) {
+      console.log("hello from error");
       console.log(chala.error);
       return;
     }
 
     if (chala.success) {
+      console.log("hello from success");
       var deme = chala.transaction.id;
       return deme;
     } else {
