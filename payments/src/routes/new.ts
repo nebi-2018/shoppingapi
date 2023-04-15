@@ -82,7 +82,7 @@ router.post(
     }
 
     if (chala.success) {
-      var deme = chala.success.transaction.id;
+      var deme = chala.transaction.id;
       return deme;
     } else {
       console.log(chala.message);
