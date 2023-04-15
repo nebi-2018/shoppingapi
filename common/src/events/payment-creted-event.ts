@@ -5,6 +5,5 @@ export interface PayementCreatedEvent {
   data: {
     id: string;
     orderId: string;
-    transactionId: string;
   };
 }
