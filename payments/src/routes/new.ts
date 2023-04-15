@@ -67,32 +67,54 @@ router.post(
       privateKey: "4751d980e7dcf15901ba78d598b7d5c1",
     });
 
-    const chala = await gateway.transaction.sale(
-      {
-        amount: order.amount,
-        //paymentMethodNonce: "fake-paypal-one-time-nounce",
-        paymentMethodNonce: nonceFromTheClient,
-        deviceData: deviceData,
-        options: {
-          submitForSettlement: true,
-        },
+    const chala = await gateway.transaction.sale({
+      amount: order.amount,
+      paymentMethodNonce: nonceFromTheClient,
+      deviceData: deviceData,
+      options: {
+        submitForSettlement: true,
       },
-      (err: any, result: any) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
+    });
 
-        if (result.success) {
-          console.log("Transaction ID: " + result.transaction.id);
-        } else {
-          console.error(result.message);
-        }
-        return result.transaction.id;
-      }
-    );
+    if (chala.error) {
+      console.log(chala.error);
+      return;
+    }
 
-    console.log(`this is chala ${chala}`);
+    if (chala.success) {
+      var deme = chala.success.transaction.id;
+      return deme;
+    } else {
+      console.log(chala.message);
+    }
+
+    console.log("Transaction ID: " + deme);
+    // await gateway.transaction.sale(
+    //   {
+    //     amount: order.amount,
+    //     paymentMethodNonce: nonceFromTheClient,
+    //     deviceData: deviceData,
+    //     options: {
+    //       submitForSettlement: true,
+    //     },
+    //   },
+    //   (err: any, result: any) => {
+    //     if (err) {
+    //       console.error(err);
+    //       return;
+    //     }
+
+    //     if (result.success) {
+    //       console.log(res.json);
+    //       console.log("the result is: " + result);
+    //       console.log("Transaction ID: " + result.transaction.id);
+    //     } else {
+    //       console.error(result.message);
+    //     }
+    //     return result.transaction.id;
+    //   }
+    // );
+
     //for test
     // const user = await User.findOne({ userId: order.userId });
     // console.log(`I found the user ${user}`);
@@ -252,7 +274,7 @@ router.post(
 
     const payment = Payment.build({
       orderId,
-      transactionId: chala,
+      transactionId: deme,
       // stripeId: charge.id,
       // paymentIntentId: charge.id,
       // clientsecret: charge.client_secret,
