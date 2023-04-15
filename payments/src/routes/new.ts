@@ -67,71 +67,30 @@ router.post(
       privateKey: "4751d980e7dcf15901ba78d598b7d5c1",
     });
 
-    var chala = gateway.transaction.sale({
-      amount: order.amount,
-      paymentMethodNonce: nonceFromTheClient,
-      deviceData: deviceData,
-      options: {
-        submitForSettlement: true,
+    await gateway.transaction.sale(
+      {
+        amount: order.amount,
+        paymentMethodNonce: nonceFromTheClient,
+        deviceData: deviceData,
+        options: {
+          submitForSettlement: true,
+        },
       },
-    });
+      (err: any, result: any) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
 
-    // if (chala.error) {
-    //   console.log("hello from error");
-    //   console.log(chala.error);
-    // }
+        if (result.success) {
+          console.log("the result is: " + result);
 
-    if (chala.success !== null) {
-      console.log("hello from success");
-      var deme = chala.transaction.id;
-      return deme;
-    }
-
-    console.log("Transaction ID: " + deme);
-
-    // await gateway.transaction.sale(
-    //   {
-    //     amount: order.amount,
-    //     paymentMethodNonce: nonceFromTheClient,
-    //     deviceData: deviceData,
-    //     options: {
-    //       submitForSettlement: true,
-    //     },
-    //   },
-    //   (err: any, result: any) => {
-    //     if (err) {
-    //       console.error(err);
-    //       return;
-    //     }
-
-    //     if (result.success) {
-    //       console.log(res.json);
-    //       console.log("the result is: " + result);
-    //       var kkk = result.transaction.id;
-    //       console.log("Transaction ID: " + result.transaction.id);
-    //       return kkk;
-    //     } else {
-    //       console.error(result.message);
-    //     }
-    //     return result.transaction.id;
-    //   }
-    // );
-
-    // await gateway.transaction.sale(
-    //   {
-    //     amount: order.amount,
-    //     paymentMethodNonce: nonceFromTheClient,
-    //     deviceData: deviceData,
-    //     options: {
-    //       submitForSettlement: true,
-    //     },
-    //   },
-    //   (err: any, result: any) => {
-    //     var kkk = result.transaction.id;
-    //     console.log("Transaction ID: " + result.transaction.id);
-    //     return kkk;
-    //   }
-    // );
+          console.log("Transaction ID: " + result.transaction.id);
+        } else {
+          console.error(result.message);
+        }
+      }
+    );
 
     //for test
     // const user = await User.findOne({ userId: order.userId });
@@ -292,7 +251,8 @@ router.post(
 
     const payment = Payment.build({
       orderId,
-      transactionId: deme,
+      //status
+      //transactionId: deme,
       // stripeId: charge.id,
       // paymentIntentId: charge.id,
       // clientsecret: charge.client_secret,
@@ -303,7 +263,7 @@ router.post(
     new PaymentCreatedPublisher(natsWrapper.client).publish({
       id: payment.id,
       orderId: payment.orderId,
-      transactionId: payment.transactionId,
+      //transactionId: payment.transactionId,
     });
 
     res.status(201).send(payment);

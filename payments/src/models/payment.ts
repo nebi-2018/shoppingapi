@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
+import { OrderStatus } from "@washera/common";
 
 interface PaymentAttrs {
   orderId: string;
-  transactionId: string;
+  //transactionId: string;
+  //status: OrderStatus;
   // stripeId: string;
   // paymentIntentId: string;
   // clientsecret: string | null;
@@ -10,7 +12,8 @@ interface PaymentAttrs {
 
 interface PaymentDoc extends mongoose.Document {
   orderId: string;
-  transactionId: string;
+  //transactionId: string;
+  //status: OrderStatus;
   // stripeId: string;
   // paymentIntentId: string;
   // clientsecret: string;
@@ -26,10 +29,14 @@ const paymentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    transactionId: {
-      type: String,
-      required: true,
-    },
+    // status: {
+    //   type: OrderStatus,
+    //   required: true,
+    // },
+    // transactionId: {
+    //   type: String,
+    //   required: true,
+    // },
     // stripeId: {
     //   type: String,
     //   required: true,
