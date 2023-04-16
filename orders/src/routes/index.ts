@@ -8,7 +8,10 @@ router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
   const orders = await Order.findOne({ userId: req.currentUser!.id }).populate(
     "products"
   );
-  res.send(orders);
+  const orderss = await Order.find({ userId: req.currentUser!.id }).populate(
+    "products"
+  );
+  res.send(orderss);
 });
 
 export { router as indexOrderRouter };
